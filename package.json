@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "test:watch": "PWDEBUG=console,1 yarn jest --watch"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",

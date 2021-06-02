@@ -5,7 +5,7 @@ let page: Page;
 let context: BrowserContext;
 
 beforeAll(async () => {
-	browser = await chromium.launch({ headless: true });
+	browser = await chromium.launch();
 	page = await browser.newPage();
 });
 
@@ -24,6 +24,8 @@ afterEach(async () => {
 describe('Login to saucelabs "The Internet" website', () => {
 	it('Should successfully login when valid credentials are used', async () => {
 		await page.goto('https://the-internet.herokuapp.com/login');
-		await page.fill('id=username', 'test');
+		await page.fill('id=username', 'username');
+		await page.fill('id=password', 'password');
+		await page.click('text=Login');
 	});
 });

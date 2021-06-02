@@ -9,3 +9,7 @@ Automated tests using playwright
 ## Run tests
 
 `yarn run test`
+
+## Run tests in watch mode
+
+`yarn run test:watch`
