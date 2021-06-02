@@ -24,8 +24,11 @@ afterEach(async () => {
 describe('Login to saucelabs "The Internet" website', () => {
 	it('Should successfully login when valid credentials are used', async () => {
 		await page.goto('https://the-internet.herokuapp.com/login');
-		await page.fill('id=username', 'username');
-		await page.fill('id=password', 'password');
-		await page.click('text=Login');
+		await page.fill('id=username', 'tomsmith');
+		await page.fill('id=password', 'SuperSecretPassword!');
+		await page.click('button:has-text("Login")');
+
+		const flashElement = await page.textContent('#flash');
+		expect(flashElement).toContain('You logged into a secure area!');
 	});
 });
