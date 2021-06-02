@@ -15,6 +15,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
 	context = await browser.newContext();
+	await page.goto('https://the-internet.herokuapp.com/login');
 });
 
 afterEach(async () => {
@@ -23,12 +24,25 @@ afterEach(async () => {
 
 describe('Login to saucelabs "The Internet" website', () => {
 	it('Should successfully login when valid credentials are used', async () => {
-		await page.goto('https://the-internet.herokuapp.com/login');
-		await page.fill('id=username', 'tomsmith');
-		await page.fill('id=password', 'SuperSecretPassword!');
-		await page.click('button:has-text("Login")');
+		await login('tomsmith', 'SuperSecretPassword!');
 
-		const flashElement = await page.textContent('#flash');
-		expect(flashElement).toContain('You logged into a secure area!');
+		await assertMessageIs('You logged into a secure area!');
+	});
+
+	it('Should prevent login when invalid credentials are used', async () => {
+		await login('invalidUsername', 'password');
+
+		await assertMessageIs('Your username is invalid!');
 	});
 });
+
+const login = async (username: string, password: string) => {
+	await page.fill('id=username', username);
+	await page.fill('id=password', password);
+	await page.click('button:has-text("Login")');
+};
+
+const assertMessageIs = async (message: string) => {
+	const flashElement = await page.textContent('#flash');
+	expect(flashElement).toContain(message);
+};
